@@ -1,6 +1,6 @@
 ﻿namespace LogsAPI.Interfeces
 {
-    public interface IMongoDBSettings
+    public interface IMongodbSettings
     {
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }

@@ -11,7 +11,7 @@ namespace LogsAPI.Services
     {
         private readonly MongodbGeneric<Log> log;
 
-        public LogService(IMongoDBSettings settings)
+        public LogService(IMongodbSettings settings)
         {
             log = new MongodbGeneric<Log>(settings, nameof(CollectionName.ProviderLog));
         }
@@ -19,7 +19,7 @@ namespace LogsAPI.Services
         public Log Create(Log logReq)
         {
             DateTime date = DateTime.Now;
-            string user = "WalletService";
+            string user = "LogService";
 
             logReq.CreationDate = date;
             logReq.UserCreationId = user;

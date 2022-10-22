@@ -13,7 +13,6 @@ namespace LogsAPI.Extensions
     {
         public static IServiceCollection AddInyeccionDependencias(this IServiceCollection services, IConfiguration configuration)
         {
-
             services.AddAutoMap();
             services.ConfigureInjection(configuration);
             services.DependencyInjection();
@@ -36,7 +35,7 @@ namespace LogsAPI.Extensions
 
         private static IServiceCollection DependencyInjection(this IServiceCollection services)
         {
-            services.AddSingleton<IMongoDBSettings>(sp => sp.GetRequiredService<IOptions<MongoDBSettings>>().Value);
+            services.AddSingleton<IMongodbSettings>(sp => sp.GetRequiredService<IOptions<MongoDBSettings>>().Value);
             services.AddSingleton<ILogService, LogService>();
 
             return services;
