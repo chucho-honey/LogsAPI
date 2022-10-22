@@ -1,4 +1,4 @@
-﻿namespace LogsAPI.Helpers
+﻿namespace LogsAPI.Helpers.Enums
 {
     public enum CollectionName
     {

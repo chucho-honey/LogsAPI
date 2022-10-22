@@ -1,6 +1,6 @@
 ﻿using LogsAPI.Context;
 using LogsAPI.Entities;
-using LogsAPI.Helpers;
+using LogsAPI.Helpers.Enums;
 using LogsAPI.Interfeces;
 using System;
 using System.Collections.Generic;
