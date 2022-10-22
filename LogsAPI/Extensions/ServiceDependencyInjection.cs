@@ -35,7 +35,7 @@ namespace LogsAPI.Extensions
 
         private static IServiceCollection DependencyInjection(this IServiceCollection services)
         {
-            services.AddSingleton<IMongodbSettings>(sp => sp.GetRequiredService<IOptions<MongoDBSettings>>().Value);
+            services.AddSingleton<IMongodbSettings>(sp => sp.GetRequiredService<IOptions<MongodbSettings>>().Value);
             services.AddSingleton<ILogService, LogService>();
 
             return services;
@@ -43,7 +43,7 @@ namespace LogsAPI.Extensions
 
         private static IServiceCollection ConfigureInjection(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<MongoDBSettings>(configuration.GetSection(nameof(MongoDBSettings)));
+            services.Configure<MongodbSettings>(configuration.GetSection(nameof(MongodbSettings)));
             return services;
         }
     }

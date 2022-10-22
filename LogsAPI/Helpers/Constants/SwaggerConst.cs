@@ -14,7 +14,7 @@
 
         #region log
         public const string SwaggerDocLog = "log";
-        public const string LogServiceTitle = "Log";
+        public const string LogServiceTitle = "Log API";
         public const string LogServiceName = "log";
         public const string PathLog = "../swagger/log/swagger.json";
         #endregion
