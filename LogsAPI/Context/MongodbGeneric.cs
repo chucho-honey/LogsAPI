@@ -1,32 +1,19 @@
-﻿using LogsAPI.Helpers;
-using LogsAPI.Interfeces;
+﻿using LogsAPI.Interfeces;
 using MongoDB.Driver;
-using System.Collections.Generic;
 
 namespace LogsAPI.Context
 {
-    public class MongodbGeneric<T> where T : class
+    public class MongodbGeneric<T> : IMongodbGeneric<T> where T : class
     {
-        private readonly IMongoCollection<T> collection;
+        private IMongoDatabase database;
+        private readonly MongoClient client;
 
-        public MongodbGeneric(IMongodbSettings settings, string collectionName)
+        public MongodbGeneric(IMongodbSettings settings)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-
-            collection = database.GetCollection<T>(collectionName);
+            client = new MongoClient(settings.ConnectionString);
+            database = client.GetDatabase(settings.DatabaseName);
         }
 
-        public T Create(T collect)
-        {
-            collection.InsertOne(collect);
-            return collect;
-        }
-
-        public List<T> Get() => collection.Find(collect => true).ToList();
-        public T GetById(string id) => collection.Find(MongodbGenericHelper<T>.Filter(id)).FirstOrDefault();
-        public T GetByField(string columName, string id) => collection.Find(MongodbGenericHelper<T>.Filter(columName, id)).FirstOrDefault();
-        public void Update(string id, T collect) => collection.ReplaceOne(MongodbGenericHelper<T>.Filter(id), collect);
-        public void Remove(string id) => collection.DeleteOne(MongodbGenericHelper<T>.Filter(id));
+        public IMongoCollection<T> GetCollection(string collectionName) => database.GetCollection<T>(collectionName);
     }
 }

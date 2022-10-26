@@ -1,7 +1,7 @@
-﻿using LogsAPI.Context;
-using LogsAPI.Entities;
+﻿using LogsAPI.Entities;
 using LogsAPI.Helpers.Enums;
 using LogsAPI.Interfeces;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 
@@ -9,37 +9,39 @@ namespace LogsAPI.Services
 {
     public class LogService : ILogService
     {
-        private readonly MongodbGeneric<Log> log;
+        private readonly IMongoCollection<Log> collection;
 
-        public LogService(IMongodbSettings settings)
+        public LogService(IMongodbGeneric<Log> log)
         {
-            log = new MongodbGeneric<Log>(settings, nameof(CollectionName.ProviderLog));
+            collection = log.GetCollection(nameof(CollectionName.ProviderLog));
         }
 
-        public Log Create(Log logReq)
+        public Log Create(Log log)
         {
             DateTime date = DateTime.Now;
             string user = "LogService";
 
-            logReq.CreationDate = date;
-            logReq.UserCreationId = user;
-            logReq.DateLastModificationId = date;
-            logReq.UserLastModifiedId = user;
-            logReq.IsActive = 1;
+            log.CreationDate = date;
+            log.UserCreationId = user;
+            log.DateLastModificationId = date;
+            log.UserLastModifiedId = user;
+            log.IsActive = 1;
 
-            return log.Create(logReq);
+            collection.InsertOne(log);
+            return log;
         }
 
         public void Update(string id, Log logIn)
         {
             DateTime date = DateTime.Now;
-
             logIn.DateLastModificationId = date;
-            log.Update(id, logIn);
+
+            collection.ReplaceOne(log => log.Id == id, logIn);
         } 
 
-        public List<Log> Get() => log.Get();
-        public Log GetById(string id) => log.GetById(id);
-        public void Remove(string id) => log.Remove(id);
+        public List<Log> Get() => collection.Find(collect => true).ToList();
+        public Log GetById(string id) => collection.Find(log => log.Id == id).FirstOrDefault();
+        public void Remove(string id) => collection.DeleteOne(log => log.Id == id);
+        public Log GetByServiceAndProvider(string service, string provider) => collection.Find(c => c.Service == service && c.Provider == provider).FirstOrDefault();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LogsAPI.Context;
 using LogsAPI.Helpers;
 using LogsAPI.Interfeces;
 using LogsAPI.Models;
@@ -36,6 +37,7 @@ namespace LogsAPI.Extensions
         private static IServiceCollection DependencyInjection(this IServiceCollection services)
         {
             services.AddSingleton<IMongodbSettings>(sp => sp.GetRequiredService<IOptions<MongodbSettings>>().Value);
+            services.AddSingleton(typeof(IMongodbGeneric<>), typeof(MongodbGeneric<>));
             services.AddSingleton<ILogService, LogService>();
 
             return services;
