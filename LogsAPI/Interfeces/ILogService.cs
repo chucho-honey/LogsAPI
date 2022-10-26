@@ -10,5 +10,6 @@ namespace LogsAPI.Interfeces
         List<Log> Get();
         Log GetById(string id);
         void Remove(string id);
+        List<Log> GetByServiceAndProvider(string service, string provider);
     }
 }

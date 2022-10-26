@@ -5,7 +5,7 @@ namespace LogsAPI.Context
 {
     public class MongodbGeneric<T> : IMongodbGeneric<T> where T : class
     {
-        private IMongoDatabase database;
+        private readonly IMongoDatabase database;
         private readonly MongoClient client;
 
         public MongodbGeneric(IMongodbSettings settings)

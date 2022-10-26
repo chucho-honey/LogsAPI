@@ -39,9 +39,9 @@ namespace LogsAPI.Services
             collection.ReplaceOne(log => log.Id == id, logIn);
         } 
 
-        public List<Log> Get() => collection.Find(collect => true).ToList();
+        public List<Log> Get() => collection.Find(log => true).ToList();
         public Log GetById(string id) => collection.Find(log => log.Id == id).FirstOrDefault();
         public void Remove(string id) => collection.DeleteOne(log => log.Id == id);
-        public Log GetByServiceAndProvider(string service, string provider) => collection.Find(c => c.Service == service && c.Provider == provider).FirstOrDefault();
+        public List<Log> GetByServiceAndProvider(string service, string provider) => collection.Find(log => log.Service == service && log.Provider == provider).ToList();
     }
 }
